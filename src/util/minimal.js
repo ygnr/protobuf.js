@@ -403,3 +403,16 @@ util._configure = function() {
             return new Buffer(size);
         };
 };
+
+
+/** If not present, add '0x' from the start of a hex string. */
+
+util.addHexPrefix = function addHexPrefix(x) {
+    return x.slice(0, 2) === '0x' ? x : '0x' + x;
+} 
+
+/** Read an ArrayBuffer as a hex string sans 0x. */
+
+util.toHexString = function toHexString(xs) {
+    return util.addHexPrefix(Buffer.from(xs).toString('hex'));
+}

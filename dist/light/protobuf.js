@@ -1,6 +1,6 @@
 /*!
  * protobuf.js v6.8.1 (c) 2016, daniel wirtz
- * compiled tue, 11 jul 2017 15:52:11 utc
+ * compiled wed, 26 jul 2017 05:29:40 utc
  * licensed under the bsd-3-clause license
  * see: https://github.com/dcodeio/protobuf.js for details
  */
@@ -1289,7 +1289,7 @@ function genValuePartial_toObject(gen, field, fieldIndex, prop) {
                 ("d%s=o.longs===String?util.Long.prototype.toString.call(m%s):o.longs===Number?new util.LongBits(m%s.low>>>0,m%s.high>>>0).toNumber(%s):m%s", prop, prop, prop, prop, isUnsigned ? "true": "", prop);
                 break;
             case "bytes": gen
-            ("d%s=o.bytes===String?util.base64.encode(m%s,0,m%s.length):o.bytes===Array?Array.prototype.slice.call(m%s):m%s", prop, prop, prop, prop, prop);
+            ("d%s=o.bytes===String?util.base64.encode(m%s,0,m%s.length):o.bytes==='HexString'?util.toHexString(m%s):o.bytes===Array?Array.prototype.slice.call(m%s):m%s", prop, prop, prop, prop, prop, prop);
                 break;
             default: gen
             ("d%s=m%s", prop, prop);
@@ -6194,6 +6194,19 @@ util._configure = function() {
             return new Buffer(size);
         };
 };
+
+
+/** If not present, add '0x' from the start of a hex string. */
+
+util.addHexPrefix = function addHexPrefix(x) {
+    return x.slice(0, 2) === '0x' ? x : '0x' + x;
+} 
+
+/** Read an ArrayBuffer as a hex string sans 0x. */
+
+util.toHexString = function toHexString(xs) {
+    return util.addHexPrefix(Buffer.from(xs).toString('hex'));
+}
 
 },{"1":1,"10":10,"2":2,"34":34,"4":4,"6":6,"7":7,"9":9}],36:[function(require,module,exports){
 "use strict";

@@ -1,6 +1,6 @@
 /*!
  * protobuf.js v6.8.1 (c) 2016, daniel wirtz
- * compiled tue, 11 jul 2017 15:52:11 utc
+ * compiled wed, 26 jul 2017 05:29:40 utc
  * licensed under the bsd-3-clause license
  * see: https://github.com/dcodeio/protobuf.js for details
  */
@@ -2124,6 +2124,19 @@ util._configure = function() {
             return new Buffer(size);
         };
 };
+
+
+/** If not present, add '0x' from the start of a hex string. */
+
+util.addHexPrefix = function addHexPrefix(x) {
+    return x.slice(0, 2) === '0x' ? x : '0x' + x;
+} 
+
+/** Read an ArrayBuffer as a hex string sans 0x. */
+
+util.toHexString = function toHexString(xs) {
+    return util.addHexPrefix(Buffer.from(xs).toString('hex'));
+}
 
 },{"1":1,"14":14,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7}],16:[function(require,module,exports){
 "use strict";
